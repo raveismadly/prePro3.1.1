@@ -51,9 +51,10 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void setRole(User user,Role role) {
-        if (role.equals("ROLE_ADMIN")) {
+        System.out.println(role.getRole());
+        if (role.getRole().equals("ADMIN")) {
             user.setRoles(Collections.singleton(new Role(1L, "ROLE_ADMIN")));
-        } if (role.equals("ROLE_USER")) {
+        } if (role.getRole().equals("USER")) {
             user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         }
     }

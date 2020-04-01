@@ -5,65 +5,37 @@
 </head>
 <body>
 
-
-
-<!--<div class="container">-->
-
-<!--    <div class="starter-template">-->
-
-<!--        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
-<!--        <a href="/admin/add">Add User</a>-->
-<!--        <form th:><table>-->
-<!--            <tr>-->
-<!--                <td>Id</td>-->
-<!--                <td>Username</td>-->
-<!--                <td>Role</td>-->
-<!--                <td>Actions</td>-->
-<!--            </tr>-->
-
-
-<!--        </table></form>-->
-<!--        <form th:action="@{/logout}" method="post">-->
-<!--            <input type="submit" value="Sign Out"/>-->
-<!--        </form>-->
-
-<!--    </div>-->
-
-<!--</div>-->
-<div align="center">
-    <a href="/admin/add">Add</a>
-    <div th:switch="${allUsers}">
-        <h2 th:case="null">No users yet!</h2>
-        <div th:case="*">
-            <table border="1" cellpadding="5">
-                <caption>
-                    Users
-                </caption>
+<div class="container" align="center">
+    <a href="/admin/add">ADD USER</a>
+    <form>
+        <div>
+            <table border="2px">
                 <tr>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Roles</th>
-                    <th>Actions</th>
+                    <td>id</td>
+                    <td>Username</td>
+                    <td>Password</td>
+                    <td>Role</td>
+                    <td>Actions</td>
                 </tr>
-                <tbody>
+
                 <tr th:each="user : ${allUsers}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
                     <td>
-                        <!--впихиваем роли в столбец Роли-->
-                        <div th:each="role : ${user.roles.iterator().next().getRole().toString()}" th:text="${role}"></div>
+                        <!--если вдруг перестало работать отображение проверь базу на юзерские права-->
+                        <div th:each="role: ${user.roles.iterator().next().getRole().toString()}" th:text="${role}">
+                            <!--                    <div th:each="role: ${user.roles}" th:text="${role}">-->
+                        </div>
                     </td>
-                    <td>
-                        <a th:href="@{/admin/users/edit/{id}(id=${user.id})}">Edit</a>
-                        <a th:href="@{/admin/users/delete/{id}(id=${user.id})}">Delete</a>
-                    </td>
+
+                    <td align="2px"><a th:href="@{/admin/edit/{id}(id=${user.id})}">EDIT USER</a>
+                        <a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete USER</a></td>
                 </tr>
-                </tbody>
             </table>
         </div>
-        <a href="/home">Home</a>
-        <a href="/perform_logout">Logout</a>
-    </div>
+        <a href="/logout">Log out</a>
+    </form>
 </div>
 </body>
 </html>

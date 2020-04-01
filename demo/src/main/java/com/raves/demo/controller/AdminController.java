@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -28,24 +30,20 @@ public class AdminController {
         return "/admin/admin";
     }
 
-//    @GetMapping(value = "/users")
-//    public String printAllUsers(Model model) {
-//        List<User> list = service.allUsers();
-//        model.addAttribute("allUsers", list);
-//        return "/admin/admin";
-//    }
-
     @GetMapping(value = "/add")
     public String addUserPage(Model model) {
         model.addAttribute(new User());
+
+
         return "/admin/addUser";
     }
 
     @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute("user") User user, Role role) {
+    public String addUser(@ModelAttribute("user") User user,@ModelAttribute("role") Role role) {
+        System.out.println(role.getRole());
         service.setRole(user,role);
         service.addUser(user);
-        return "/admin/admin";
+        return "redirect:/admin/";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -55,15 +53,18 @@ public class AdminController {
     }
 
     @PostMapping(value = "/edit")
-    public String editFilm(@ModelAttribute("user") User user) {
+    public String editFilm(@ModelAttribute("user") User user,Role role) {
+        System.out.println(user.getPassword());
+        System.out.println(user.getUsername());
+        service.setRole(user,role);
         service.updateUser(user);
-        return "/admin/admin";
+        return "redirect:/admin/";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteUserPage(@PathVariable("id") int id) {
         User user = service.getUserById(id);
         service.deleteUser(user);
-        return "/admin/admin";
+        return "redirect:/admin/";
     }
 }
